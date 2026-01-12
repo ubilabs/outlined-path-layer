@@ -1,8 +1,9 @@
-import {PathLayer, PathLayerProps} from '@deck.gl/layers';
-import customVertexShader from './outlined-path-layer.vert';
-import customFragmentShader from './outlined-path-layer.frag';
 import {Accessor, Color, DefaultProps, UNIT, Unit} from '@deck.gl/core';
+import {PathLayer, PathLayerProps} from '@deck.gl/layers';
 import {outlineUniforms} from './outlined-path-uniforms';
+
+import fs from './outlined-path-layer-fragment.glsl';
+import vs from './outlined-path-layer-vertex.glsl';
 
 export type OutlinedPathLayerProps<DataT = unknown> = PathLayerProps<DataT> & {
   /**
@@ -54,8 +55,8 @@ export default class OutlinedPathLayer<DataT> extends PathLayer<
 
     return {
       ...shaders,
-      vs: customVertexShader,
-      fs: customFragmentShader,
+      vs: vs,
+      fs: fs,
       modules: [...shaders.modules, outlineUniforms]
     };
   }
