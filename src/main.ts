@@ -1,4 +1,4 @@
-import {Color, Deck, MapViewState, Position} from '@deck.gl/core';
+import {Color, Position} from '@deck.gl/core';
 
 import OutlineLayer from './outline-layer/outline-layer';
 import OutPathLayer from './outpath-layer/outpath-layer';
@@ -6,9 +6,9 @@ import {GoogleMapsOverlay} from '@deck.gl/google-maps';
 import {loadMapsApi} from './load-maps-api';
 
 import tripsData from './trips.json';
-import {PathLayer} from '@deck.gl/layers';
-import {PathOutlineExtension} from './path-outline-extension';
+
 import OutlinedPathLayer from './outlined-path-layer/outlined-path-layer';
+import {PathLayer} from '@deck.gl/layers';
 
 interface CoordWithTimeStamp extends google.maps.LatLngLiteral {
   timestamp: number | string;
@@ -17,27 +17,18 @@ interface BasicTrip {
   UUID: string;
   dateStart: number | string;
   coords: Array<CoordWithTimeStamp>;
-  /** Supports rgb array [r, g, b], rgb string "rgb(r, g, b)" and hex colors "#ff0000".
-   * Note: The colors are internally converted to the rgb array format as deck.gl requires that
-   * format for its colors
-   */
   color: Array<number> | string;
 }
 
 type Trip<T> = BasicTrip & {latLng?: google.maps.LatLngLiteral} & T;
 type CustomTrip = Trip<{name: string}>;
 
-type DataType = {
-  positions: Position[];
-  color: Color;
-};
-
-const betrikoLocation = {
+const location = {
   center: {
-    lat: 53.87415993211935,
-    lng: 12.576841926483503
+    lat: 53.85,
+    lng: 13.48
   },
-  zoom: 10.5,
+  zoom: 12,
   heading: 0,
   tilt: 0,
   bounds: {
@@ -53,6 +44,36 @@ let overlay = new GoogleMapsOverlay({
 
 let map: google.maps.Map;
 
+interface LayerSettings {
+  getWidth: number;
+  getOutlineWidth: number;
+  widthUnits: 'pixels' | 'meters';
+  outlineWidthUnits: 'pixels' | 'meters';
+  outlineColor: string;
+  widthMinPixels: number;
+  widthMaxPixels: number;
+  outlineMinPixels: number;
+  outlineMaxPixels: number;
+  capRounded: boolean;
+  jointRounded: boolean;
+  miterLimit: number;
+}
+
+const settings: LayerSettings = {
+  getWidth: 6,
+  getOutlineWidth: 2,
+  widthUnits: 'pixels',
+  outlineWidthUnits: 'pixels',
+  outlineColor: '#000000',
+  widthMinPixels: 4,
+  widthMaxPixels: 20,
+  outlineMinPixels: 1,
+  outlineMaxPixels: 10,
+  capRounded: true,
+  jointRounded: true,
+  miterLimit: 4
+};
+
 async function setGoogleMap() {
   await loadMapsApi({
     key: import.meta.env.VITE_GOOGLE_MAPS_KEY
@@ -63,10 +84,10 @@ async function setGoogleMap() {
     backgroundColor: 'transparent',
     gestureHandling: 'greedy',
     clickableIcons: false,
-    mapId: '728c4c153ce32f8',
-    mapTypeId: 'hybrid',
-    center: betrikoLocation.center,
-    zoom: betrikoLocation.zoom
+    mapId: 'ace40485e56020778d9611f7',
+    colorScheme: 'DARK',
+    center: location.center,
+    zoom: location.zoom
   });
 
   google.maps.event.addListenerOnce(map, 'idle', async () => {
@@ -76,195 +97,290 @@ async function setGoogleMap() {
 
 async function main() {
   await setGoogleMap();
-  setLayers();
+  createConfigPanel();
+  setLayer();
 }
 
 main();
 
-function setLayers() {
-  const data: DataType[] = [
-    {
-      positions: [
-        [0, 1],
-        [0, -1]
-      ],
-      color: [12, 127, 188]
-    },
-    {
-      positions: [
-        [-1, -1],
-        [1, 2]
-      ],
-      color: [255, 255, 128]
-    },
-    {
-      positions: [
-        [1, 1],
-        [-1, -1]
-      ],
-      color: [209, 178, 12]
+function createConfigPanel() {
+  const configPanel = document.getElementById('config-panel');
+  if (!configPanel) return;
+
+  const createSlider = (
+    id: string,
+    label: string,
+    min: string,
+    max: string,
+    step: string,
+    value: number,
+    onUpdate: (value: number) => void
+  ) => {
+    const container = document.createElement('div');
+    const labelEl = document.createElement('label');
+    labelEl.htmlFor = id;
+    labelEl.innerText = label;
+    const slider = document.createElement('input');
+    slider.type = 'range';
+    slider.id = id;
+    slider.min = min;
+    slider.max = max;
+    slider.step = step;
+    slider.value = String(value);
+    const valueLabel = document.createElement('span');
+    valueLabel.innerText = String(value);
+    slider.addEventListener('input', (e) => {
+      const newValue = parseFloat((e.target as HTMLInputElement).value);
+      valueLabel.innerText = String(newValue);
+      onUpdate(newValue);
+    });
+    container.append(labelEl, slider, valueLabel);
+    return container;
+  };
+
+  const createDropdown = <T extends string>(
+    id: string,
+    label: string,
+    options: T[],
+    value: T,
+    onUpdate: (value: T) => void
+  ) => {
+    const container = document.createElement('div');
+    const labelEl = document.createElement('label');
+    labelEl.htmlFor = id;
+    labelEl.innerText = label;
+    const select = document.createElement('select');
+    select.id = id;
+    options.forEach((option) => {
+      const optionEl = document.createElement('option');
+      optionEl.value = option;
+      optionEl.innerText = option;
+      if (option === value) {
+        optionEl.selected = true;
+      }
+      select.appendChild(optionEl);
+    });
+    select.addEventListener('change', (e) => onUpdate((e.target as HTMLSelectElement).value as T));
+    container.append(labelEl, select);
+    return container;
+  };
+
+  const createColorPicker = (
+    id: string,
+    label: string,
+    value: string,
+    onUpdate: (value: string) => void
+  ) => {
+    const container = document.createElement('div');
+    const labelEl = document.createElement('label');
+    labelEl.htmlFor = id;
+    labelEl.innerText = label;
+    const colorPicker = document.createElement('input');
+    colorPicker.type = 'color';
+    colorPicker.id = id;
+    colorPicker.value = value;
+    colorPicker.addEventListener('input', (e) => onUpdate((e.target as HTMLInputElement).value));
+    container.append(labelEl, colorPicker);
+    return container;
+  };
+
+  const createCheckbox = (
+    id: string,
+    label: string,
+    value: boolean,
+    onUpdate: (value: boolean) => void
+  ) => {
+    const container = document.createElement('div');
+    const labelEl = document.createElement('label');
+    labelEl.htmlFor = id;
+    labelEl.innerText = label;
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.id = id;
+    checkbox.checked = value;
+    checkbox.addEventListener('change', (e) => onUpdate((e.target as HTMLInputElement).checked));
+    container.append(labelEl, checkbox);
+    return container;
+  };
+
+  const widthSlider = createSlider('width', 'Width', '0', '20', '1', settings.getWidth, (value) => {
+    settings.getWidth = value;
+    setLayer();
+  });
+
+  const widthUnitsDropdown = createDropdown(
+    'widthUnits',
+    'Width Units',
+    ['pixels', 'meters'],
+    settings.widthUnits,
+    (value) => {
+      settings.widthUnits = value;
+      setLayer();
     }
-  ];
+  );
 
-  // const getOutlineColor = (d: DataType) => d.color.toReversed() as Color;
-  const getOutlineColor: Color = [24, 24, 24];
+  const outlineWidthSlider = createSlider(
+    'outlineWidth',
+    'Outline Width',
+    '0',
+    '10',
+    '2',
+    settings.getOutlineWidth,
+    (value) => {
+      settings.getOutlineWidth = value;
+      setLayer();
+    }
+  );
 
-  const noneOutlineLayer = new OutlineLayer<DataType>({
-    id: 'none_outline',
-    data,
-    parameters: {
-      // @ts-expect-error
-      depthTest: false
-    },
-    getSourcePosition: (d) => [d.positions[0][0] - 2, d.positions[0][1]],
-    getTargetPosition: (d) => [d.positions[1][0] - 2, d.positions[1][1]],
-    getColor: (d) => d.color,
-    getOutlineColor,
-    capType: 'none',
-    getWidth: 100,
-    widthMinPixels: 10,
-    getOutlineWidth: 4,
-    widthUnits: 'meters',
-    outlineWidthUnits: 'meters',
-    outlineMinPixels: 2
-    // outlineMaxPixels: 12
-  });
+  const outlineWidthUnitsDropdown = createDropdown(
+    'outlineWidthUnits',
+    'Outline Width Units',
+    ['pixels', 'meters'],
+    settings.outlineWidthUnits,
+    (value) => {
+      settings.outlineWidthUnits = value;
+      setLayer();
+    }
+  );
 
-  const flatOutlineLayer = new OutlineLayer<DataType>({
-    id: 'flat_outline',
-    data,
-    parameters: {
-      // @ts-expect-error
-      depthTest: false
-    },
-    getSourcePosition: (d) => d.positions[0],
-    getTargetPosition: (d) => d.positions[1],
-    getColor: (d) => d.color,
-    getOutlineColor,
-    capType: 'flat',
-    getWidth: 100,
-    widthMinPixels: 10,
-    getOutlineWidth: 4,
-    widthUnits: 'meters',
-    outlineWidthUnits: 'pixels',
-    outlineMinPixels: 2,
-    outlineMaxPixels: 12
-  });
+  const outlineColorPicker = createColorPicker(
+    'outlineColor',
+    'Outline Color',
+    settings.outlineColor,
+    (value) => {
+      settings.outlineColor = value;
+      setLayer();
+    }
+  );
 
-  const roundOutlineLayer = new OutlineLayer<DataType>({
-    parameters: {
-      // @ts-expect-error
-      depthTest: true
-    },
-    id: 'round_outline',
-    data,
-    getSourcePosition: (d) => [d.positions[0][0] + 2, d.positions[0][1]],
-    getTargetPosition: (d) => [d.positions[1][0] + 2, d.positions[1][1]],
-    getColor: (d) => d.color,
-    getOutlineColor,
-    capType: 'round',
-    getWidth: 100,
-    widthMinPixels: 10,
-    getOutlineWidth: 20,
-    widthUnits: 'meters',
-    outlineWidthUnits: 'pixels',
-    outlineMinPixels: 12,
-    outlineMaxPixels: 200
-    // outlineMaxPixels: 12
-  });
+  const widthMinPixelsSlider = createSlider(
+    'widthMinPixels',
+    'Width Min Pixels',
+    '0',
+    '20',
+    '1',
+    settings.widthMinPixels,
+    (value) => {
+      settings.widthMinPixels = value;
+      setLayer();
+    }
+  );
 
-  const flatOutPathLayer = new OutPathLayer<DataType>({
-    id: 'flat_outpath',
-    data: [
-      {
-        positions: [
-          [-1, 0],
-          [1, 0],
-          [2, 1]
-        ],
-        color: [12, 255, 128]
-      }
-    ],
-    getPath: (d: DataType) => d.positions,
-    getWidth: 100,
-    widthMinPixels: 10,
-    widthUnits: 'meters',
-    getColor: (d: DataType) => d.color,
-    capRounded: !true,
-    jointRounded: !true,
-    getOutlineColor,
-    getOutlineWidth: 10,
-    outlineWidthUnits: 'meters',
-    outlineMinPixels: 5,
-    outlineMaxPixels: 400
-    // billboard: true
-  });
+  const widthMaxPixelsSlider = createSlider(
+    'widthMaxPixels',
+    'Width Max Pixels',
+    '0',
+    '50',
+    '1',
+    settings.widthMaxPixels,
+    (value) => {
+      settings.widthMaxPixels = value;
+      setLayer();
+    }
+  );
 
-  const roundOutPathLayer = new OutPathLayer<DataType>({
-    data: [
-      {
-        positions: [
-          [-1, 0.02],
-          [1, 0.02],
-          [2, 1.02],
-          [3, 1.02]
-        ],
-        color: [255, 64, 128]
-      },
-      {
-        positions: [
-          [-1, 0.02],
-          [-1, 1.02],
-          [0, 1.02],
-          [1, -1.02]
-        ],
-        color: [18, 22, 198]
-      }
-    ],
-    getPath: (d) => d.positions,
-    getWidth: 6,
-    widthMinPixels: 10,
-    widthUnits: 'pixels',
-    getColor: (d) => d.color,
-    capRounded: true,
-    jointRounded: true,
-    getOutlineColor,
-    getOutlineWidth: 4,
-    outlineWidthUnits: 'meters'
-    // outlineMinPixels: 15
-    // outlineMaxPixels: 30
-    // outlineMinPixels: 4,
-    // outlineMaxPixels: 30
-  });
+  const outlineMinPixelsSlider = createSlider(
+    'outlineMinPixels',
+    'Outline Min Pixels',
+    '0',
+    '10',
+    '1',
+    settings.outlineMinPixels,
+    (value) => {
+      settings.outlineMinPixels = value;
+      setLayer();
+    }
+  );
 
-  // const deckInstance = new Deck({
-  //   initialViewState: INITIAL_VIEW_STATE,
-  //   controller: true
-  // });
+  const outlineMaxPixelsSlider = createSlider(
+    'outlineMaxPixels',
+    'Outline Max Pixels',
+    '0',
+    '20',
+    '1',
+    settings.outlineMaxPixels,
+    (value) => {
+      settings.outlineMaxPixels = value;
+      setLayer();
+    }
+  );
 
-  const trips = new OutPathLayer<CustomTrip>({
-    id: 'newId',
-    data: tripsData,
-    getPath: (trip: CustomTrip) =>
-      trip.coords.map((coord) => [coord.lng, coord.lat] as [number, number]),
-    getColor: (trip: CustomTrip) =>
-      (Array.isArray(trip.color)
-        ? trip.color
-        : [255 * Math.random(), 255 * Math.random(), 255 * Math.random()]) as Color,
-    widthUnits: 'pixels',
-    getWidth: 6,
-    widthMinPixels: 4,
-    capRounded: true,
-    jointRounded: true,
-    miterLimit: 1,
-    outlineWidthUnits: 'pixels',
-    getOutlineWidth: 2,
-    outlineMinPixels: 1,
-    getOutlineColor: [0, 0, 0]
-  });
+  const capRoundedCheckbox = createCheckbox(
+    'capRounded',
+    'Cap Rounded',
+    settings.capRounded,
+    (value) => {
+      settings.capRounded = value;
+      setLayer();
+    }
+  );
 
-  const trips2 = new OutlinedPathLayer<CustomTrip>({
-    id: 'newId2',
+  const jointRoundedCheckbox = createCheckbox(
+    'jointRounded',
+    'Joint Rounded',
+    settings.jointRounded,
+    (value) => {
+      settings.jointRounded = value;
+      setLayer();
+    }
+  );
+
+  const miterLimitSlider = createSlider(
+    'miterLimit',
+    'Miter Limit',
+    '1',
+    '10',
+    '1',
+    settings.miterLimit,
+    (value) => {
+      settings.miterLimit = value;
+      setLayer();
+    }
+  );
+
+  configPanel.append(
+    widthSlider,
+    widthUnitsDropdown,
+    outlineWidthSlider,
+    outlineWidthUnitsDropdown,
+    outlineColorPicker,
+    widthMinPixelsSlider,
+    widthMaxPixelsSlider,
+    outlineMinPixelsSlider,
+    outlineMaxPixelsSlider,
+    capRoundedCheckbox,
+    jointRoundedCheckbox,
+    miterLimitSlider
+  );
+}
+
+function hexToRgb(hex: string): Color {
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result
+    ? [parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)]
+    : [0, 0, 0];
+}
+
+function setLayer() {
+  const {
+    widthUnits,
+    getWidth,
+    widthMinPixels,
+    widthMaxPixels,
+    outlineWidthUnits,
+    getOutlineWidth,
+    outlineMinPixels,
+    outlineMaxPixels,
+    outlineColor,
+    capRounded,
+    jointRounded,
+    miterLimit
+  } = settings;
+
+  const getOutlineColor = hexToRgb(outlineColor);
+
+  const trips = new OutlinedPathLayer<CustomTrip>({
+    id: 'OutlinedPathLayer',
     data: tripsData,
     getPath: (trip: CustomTrip) =>
       trip.coords.map((coord) => [coord.lng + 1, coord.lat] as [number, number]),
@@ -272,26 +388,21 @@ function setLayers() {
       (Array.isArray(trip.color)
         ? trip.color
         : [255 * Math.random(), 255 * Math.random(), 255 * Math.random()]) as Color,
-    widthUnits: 'pixels',
-    getWidth: 6,
-    widthMinPixels: 4,
-    capRounded: true,
-    jointRounded: true,
-    outlineWidthUnits: 'pixels',
-    getOutlineWidth: 2,
-    outlineMinPixels: 1,
-    getOutlineColor: [0, 0, 0]
+    widthUnits,
+    getWidth,
+    widthMinPixels,
+    widthMaxPixels,
+    capRounded,
+    jointRounded,
+    miterLimit,
+    outlineWidthUnits,
+    getOutlineWidth,
+    outlineMinPixels,
+    outlineMaxPixels,
+    getOutlineColor
   });
 
   overlay.setProps({
-    layers: [
-      trips,
-      trips2,
-      noneOutlineLayer,
-      flatOutlineLayer,
-      roundOutlineLayer,
-      flatOutPathLayer,
-      roundOutPathLayer
-    ]
+    layers: [trips]
   });
 }

@@ -11,3 +11,23 @@ body {
 #app {
   height: 100%;
 }
+
+#config-panel {
+  font-family: monospace;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: white;
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 360px;
+}
+
+#config-panel div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

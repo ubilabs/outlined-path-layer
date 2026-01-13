@@ -18,9 +18,12 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "tsdown",
+    "build": "vite build",
     "preview": "vite preview",
-    "prepublishOnly": "npm run build && cp src/outlined-path-layer/README.md README.md",
+    "deploy": "npm run build && gsutil -m rsync -d -r ./dist_frontend gs://outlinedpathlayer-example && npm run gcs-cache",
+    "gcs-cache": "gsutil -m setmeta -r -h \"Cache-Control:no-cache\" gs://outlinedpathlayer-example",
+    "build_tsdown": "tsdown",
+    "prepublishOnly": "npm run build_tsdown && cp src/outlined-path-layer/README.md README.md",
     "postpublish": "git checkout README.md"
   },
   "devDependencies": {

@@ -55,8 +55,8 @@ export default class OutlinedPathLayer<DataT> extends PathLayer<
 
     return {
       ...shaders,
-      vs: vs,
-      fs: fs,
+      vs,
+      fs,
       modules: [...shaders.modules, outlineUniforms]
     };
   }

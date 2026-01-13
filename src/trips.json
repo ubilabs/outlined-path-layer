@@ -1,11 +1,6 @@
 [
   {
-    "UUID": "8803c80c-6bb8-4c9e-a63b-d18e10d3ca2d",
-    "name": "#1487554",
-    "dateStart": "1494799200",
-    "coordsCount": 1985,
     "color": [180, 19, 205],
-    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_2pcIZQmqnyZAqeEsIiQ3d2SfA5OZiH5Ucg&s",
     "coords": [
       {
         "timestamp": "1494824966",
@@ -9935,12 +9930,7 @@
     ]
   },
   {
-    "UUID": "70437a3d-61c8-4e94-80f4-60df92159afd",
-    "name": "#1487703",
-    "dateStart": "1561500000",
-    "coordsCount": 1277,
     "color": [147, 22, 76],
-    "image": "https://ca.slack-edge.com/T02FSKLJV-U069L2ANWNP-3406b2d80c10-512",
     "coords": [
       {
         "timestamp": "1561542073",
@@ -16330,12 +16320,7 @@
     ]
   },
   {
-    "UUID": "dcd53c0b-35c7-4a42-9881-f736062f7f61",
-    "name": "#1488047",
-    "dateStart": "1485212400",
-    "coordsCount": 1057,
     "color": [255, 0, 0],
-    "image": "https://ca.slack-edge.com/T02FSKLJV-U069L2ANWNP-3406b2d80c10-512",
     "coords": [
       {
         "timestamp": "1485249675",
@@ -21625,12 +21610,7 @@
     ]
   },
   {
-    "UUID": "77a79820-f74f-4111-8308-9b5deaad0a7b",
-    "name": "#1488310",
-    "dateStart": "1332799200",
-    "coordsCount": 2858,
     "color": [22, 128, 128],
-    "image": "https://ca.slack-edge.com/T02FSKLJV-U069L2ANWNP-3406b2d80c10-512",
     "coords": [
       {
         "timestamp": "1332830878",
@@ -35925,10 +35905,6 @@
     ]
   },
   {
-    "UUID": "6b91ceca-682e-4101-a57e-4a0dd8236cd8",
-    "name": "#1488313",
-    "dateStart": "1301954400",
-    "coordsCount": 2641,
     "color": [0, 255, 0],
     "coords": [
       {
@@ -49139,10 +49115,6 @@
     ]
   },
   {
-    "UUID": "253cf3db-2a81-48ab-9f29-a08cf15b94fe",
-    "name": "#1488315",
-    "dateStart": "1496008800",
-    "coordsCount": 2677,
     "color": [255, 0, 255],
     "coords": [
       {
