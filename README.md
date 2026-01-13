@@ -1,14 +1,37 @@
-# Outlined Path Layer
+# OutlinedPathLayer
 
-Repository includes two variants of the PathLayer with Outlined:
+Repository includes two variants of the PathLayer with Outlines:
 
-- The initial implementation as a standalone layer based on a simple copy PathLayer, named OutPathLayer
 - OutlinedPathLayer as a subclassed layer from PathLayer
+- The initial implementation as a standalone layer based on a simple copy PathLayer, named OutPathLayer
 
-The current example copies the configuration used in the Betreiko project's TripsLayer, as this was the initial motivation for this.
+## Development
 
-## TODOS
+The current example copies the configuration used in the Betriko project's TripsLayer, as this was the initial motivation for this.
 
-- Move back away from actual glsl files to TS files to match the default deckgl setup
-- Refactor OutlinedPathLayer to be its own package to be imported in the example
-- clean up outline layer and include in repo
+The example uses the code for the layer that is in this project, so local development of the layer works intuitively.
+
+Clone the repository and install dependencies
+
+```
+git clone https://github.com/ubilabs/outlined-path-layer
+npm i
+```
+
+Create an `.env`file
+
+```
+VITE_GOOGLE_MAPS_KEY=<API-KEY>
+```
+
+Start the local development server
+
+```
+npm run dev
+```
+
+## Deployment / Publishing
+
+The example has to be deployed manually using the `deploy` script in the `package.json`
+
+Publishing the layer package works by making a new release on Github.
