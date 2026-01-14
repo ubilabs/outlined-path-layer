@@ -1,11 +1,10 @@
 import {Color} from '@deck.gl/core';
-
 import {GoogleMapsOverlay} from '@deck.gl/google-maps';
+
 import {loadMapsApi} from './load-maps-api';
+import OutlinedPathLayer from './outlined-path-layer/outlined-path-layer';
 
 import tripsData from './trips.json';
-
-import OutlinedPathLayer from './outlined-path-layer/outlined-path-layer';
 
 interface CoordWithTimeStamp extends google.maps.LatLngLiteral {
   timestamp: number | string;
