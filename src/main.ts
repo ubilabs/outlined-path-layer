@@ -22,7 +22,7 @@ type CustomTrip = Trip<{name: string}>;
 const location = {
   center: {
     lat: 53.85,
-    lng: 13.48
+    lng: 12.48
   },
   zoom: 12,
   heading: 0,
@@ -379,7 +379,7 @@ function setLayer() {
     id: 'OutlinedPathLayer',
     data: tripsData,
     getPath: (trip: CustomTrip) =>
-      trip.coords.map((coord) => [coord.lng + 1, coord.lat] as [number, number]),
+      trip.coords.map((coord) => [coord.lng, coord.lat] as [number, number]),
     getColor: (trip: CustomTrip) =>
       (Array.isArray(trip.color)
         ? trip.color
