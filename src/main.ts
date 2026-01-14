@@ -85,7 +85,7 @@ async function setGoogleMap() {
     gestureHandling: 'greedy',
     clickableIcons: false,
     mapId: 'ace40485e56020778d9611f7',
-    colorScheme: 'DARK',
+    colorScheme: google.maps.ColorScheme.DARK,
     center: location.center,
     zoom: location.zoom
   });
