@@ -1,0 +1,25 @@
+{
+  "name": "example",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "deploy": "npm run build && gsutil -m rsync -d -r ./dist gs://outlinedpathlayer-example && npm run gcs-cache",
+    "gcs-cache": "gsutil -m setmeta -r -h \"Cache-Control:no-cache\" gs://outlinedpathlayer-example"
+  },
+  "devDependencies": {
+    "@types/google.maps": "^3.58.1",
+    "typescript": "~5.7.2",
+    "vite": "^6.2.0",
+    "vite-plugin-glsl": "^1.5.1"
+  },
+  "dependencies": {
+    "@deck.gl/core": "^9.1.12",
+    "@deck.gl/google-maps": "^9.1.14",
+    "@deck.gl/layers": "^9.1.12",
+    "@ubilabs/outlined-path-layer": "latest"
+  }
+}
