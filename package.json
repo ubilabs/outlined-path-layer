@@ -22,25 +22,14 @@
     "README.md"
   ],
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "deploy": "npm run build && gsutil -m rsync -d -r ./dist_frontend gs://outlinedpathlayer-example && npm run gcs-cache",
-    "gcs-cache": "gsutil -m setmeta -r -h \"Cache-Control:no-cache\" gs://outlinedpathlayer-example",
-    "build-tsdown": "tsdown",
-    "prepublishOnly": "npm run build-tsdown && cp src/outlined-path-layer/README.md README.md",
-    "postpublish": "git checkout README.md"
+    "build": "tsdown"
+  },
+  "peerDependencies": {
+    "@deck.gl/core": "^9.1.12",
+    "@deck.gl/layers": "^9.1.12"
   },
   "devDependencies": {
-    "@types/google.maps": "^3.58.1",
     "tsdown": "^0.18.1",
-    "typescript": "~5.7.2",
-    "vite": "^6.2.0",
-    "vite-plugin-glsl": "^1.5.1"
-  },
-  "dependencies": {
-    "@deck.gl/core": "^9.1.12",
-    "@deck.gl/google-maps": "^9.1.14",
-    "@deck.gl/layers": "^9.1.12"
+    "typescript": "~5.7.2"
   }
 }

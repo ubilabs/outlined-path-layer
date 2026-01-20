@@ -2,7 +2,9 @@ import {Color} from '@deck.gl/core';
 import {GoogleMapsOverlay} from '@deck.gl/google-maps';
 
 import {loadMapsApi} from './load-maps-api';
-import OutlinedPathLayer from './outlined-path-layer/outlined-path-layer';
+import OutlinedPathLayer from '@ubilabs/outlined-path-layer';
+
+
 
 import tripsData from './trips.json';
 
@@ -21,19 +23,12 @@ type CustomTrip = Trip<{name: string}>;
 
 const location = {
   center: {
-    lat: 53.85,
+    lat: 53.86,
     lng: 12.48
   },
-  zoom: 12,
-  heading: 0,
-  tilt: 0,
-  bounds: {
-    south: 53.8737300850061,
-    west: 12.575545760325978,
-    north: 53.87458977481448,
-    east: 12.578138092641028
-  }
+  zoom: 12
 };
+
 let overlay = new GoogleMapsOverlay({
   interleaved: true
 });
