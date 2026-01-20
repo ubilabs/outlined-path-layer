@@ -4,7 +4,7 @@ import {GoogleMapsOverlay} from '@deck.gl/google-maps';
 import {loadMapsApi} from './load-maps-api';
 import OutlinedPathLayer from '@ubilabs/outlined-path-layer';
 
-import OU from '../../src/outlined-path-layer/outlined-path-layer';
+
 
 import tripsData from './trips.json';
 

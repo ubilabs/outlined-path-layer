@@ -22,9 +22,7 @@
     "README.md"
   ],
   "scripts": {
-    "build": "tsdown",
-    "prepublishOnly": "npm run build && cp src/outlined-path-layer/README.md README.md",
-    "postpublish": "git checkout README.md"
+    "build": "tsdown"
   },
   "peerDependencies": {
     "@deck.gl/core": "^9.1.12",

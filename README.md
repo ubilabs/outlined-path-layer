@@ -1,37 +1,45 @@
-# OutlinedPathLayer
+# @ubilabs/outlined-path-layer
 
-Repository includes two variants of the PathLayer with Outlines:
+A Deck.gl layer to render paths with outlines. This layer extends the functionality of the [PathLayer](https://deck.gl/docs/api-reference/layers/path-layer) to include customizable outlines.
 
-- OutlinedPathLayer as a subclassed layer from PathLayer
-- The initial implementation as a standalone layer based on a simple copy PathLayer, named OutPathLayer
+## Installation
 
-## Development
-
-The current example copies the configuration used in the Betriko project's TripsLayer, as this was the initial motivation for this.
-
-The example uses the code for the layer that is in this project, so local development of the layer works intuitively.
-
-Clone the repository and install dependencies
-
-```
-git clone https://github.com/ubilabs/outlined-path-layer
-npm i
+```bash
+npm install @ubilabs/outlined-path-layer
 ```
 
-Create an `.env`file
+## Usage
 
+```javascript
+import OutlinedPathLayer from '@ubilabs/outlined-path-layer';
+
+const data = [
+  {
+    path: [
+      [-122.45, 37.75],
+      [-122.45, 37.8]
+    ],
+    color: [255, 0, 0]
+  }
+];
+
+const layer = new OutlinedPathLayer({
+  id: 'OutlinedPathLayer',
+  data,
+  getPath: d => d.path,
+  getColor: d => d.color,
+  getWidth: 5,
+  getOutlineColor: [0, 0, 0, 255],
+  getOutlineWidth: 2
+});
 ```
-VITE_GOOGLE_MAPS_KEY=<API-KEY>
-```
 
-Start the local development server
+## Properties
 
-```
-npm run dev
-```
+The `OutlinedPathLayer` supports all properties of the [PathLayer](https://deck.gl/docs/api-reference/layers/path-layer#properties). In addition, it provides the following properties for outline customization, which can accept either a constant value or an [accessor function](https://deck.gl/docs/developer-guide/custom-layers/accessors), similar to `getPath`, `getColor`, and `getWidth`:
 
-## Deployment / Publishing
-
-The example has to be deployed manually using the `deploy` script in the `package.json`
-
-Publishing the layer package works by making a new release on Github.
+-   **`getOutlineColor`** (Color | Accessor<DataT, Color>, optional): The rgba color of the outline in the format `[r, g, b, [a]]`. Can be a constant color or an accessor function that returns a color for each object. Default is `[0, 0, 0, 255]`.
+-   **`getOutlineWidth`** (number | Accessor<DataT, number>, optional): The width of the outline. Can be a constant width or an accessor function that returns a width for each object. Default is `0`.
+-   **`outlineWidthUnits`** (Unit, optional): The units of the outline width, one of `'meters'`, `'common'`, and `'pixels'`. Default is `'pixels'`.
+-   **`outlineMinPixels`** (number, optional): The minimum outline width in pixels. Default is `0`.
+-   **`outlineMaxPixels`** (number, optional): The maximum outline width in pixels. Default is `Number.MAX_SAFE_INTEGER`.

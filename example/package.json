@@ -20,6 +20,6 @@
     "@deck.gl/core": "^9.1.12",
     "@deck.gl/google-maps": "^9.1.14",
     "@deck.gl/layers": "^9.1.12",
-    "@ubilabs/outlined-path-layer": "latest"
+    "@ubilabs/outlined-path-layer": "file:.."
   }
 }
