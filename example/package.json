@@ -13,8 +13,7 @@
   "devDependencies": {
     "@types/google.maps": "^3.58.1",
     "typescript": "~5.7.2",
-    "vite": "^6.2.0",
-    "vite-plugin-glsl": "^1.5.1"
+    "vite": "^6.2.0"
   },
   "dependencies": {
     "@deck.gl/core": "^9.1.12",
