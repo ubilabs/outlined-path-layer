@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/ubilabs/outlined-path-layer/compare/v0.1.0...v0.2.0) (2026-01-20)
+
+
+### Features
+
+* trigger release-please ([c0bdf37](https://github.com/ubilabs/outlined-path-layer/commit/c0bdf375683a1a9bb1cf2b3fdb7be7d184d91a6f))
+
 ## 0.1.0 (2026-01-13)
 
 
