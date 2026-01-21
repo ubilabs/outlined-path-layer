@@ -4,8 +4,6 @@ import {GoogleMapsOverlay} from '@deck.gl/google-maps';
 import {loadMapsApi} from './load-maps-api';
 import OutlinedPathLayer from '@ubilabs/outlined-path-layer';
 
-
-
 import tripsData from './trips.json';
 
 interface CoordWithTimeStamp extends google.maps.LatLngLiteral {
@@ -55,7 +53,7 @@ const settings: LayerSettings = {
   getOutlineWidth: 2,
   widthUnits: 'pixels',
   outlineWidthUnits: 'pixels',
-  outlineColor: '#000000',
+  outlineColor: '#ffffff',
   widthMinPixels: 4,
   widthMaxPixels: 20,
   outlineMinPixels: 1,
@@ -75,7 +73,7 @@ async function setGoogleMap() {
     backgroundColor: 'transparent',
     gestureHandling: 'greedy',
     clickableIcons: false,
-    mapId: 'ace40485e56020778d9611f7',
+    mapId: '23d7a7913a689fd9d85d09db',
     colorScheme: google.maps.ColorScheme.DARK,
     center: location.center,
     zoom: location.zoom
@@ -215,7 +213,7 @@ function createConfigPanel() {
     'Outline Width',
     '0',
     '10',
-    '2',
+    '1',
     settings.getOutlineWidth,
     (value) => {
       settings.getOutlineWidth = value;
