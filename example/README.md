@@ -2,6 +2,8 @@
 
 This directory contains an example application demonstrating the usage of the `@ubilabs/outlined-path-layer` with Deck.gl and Google Maps.
 
+See live [here](https://outlinedpathlayer-example.storage.googleapis.com/index.html).
+
 ## Setup
 
 Follow these steps to get the example running locally:
