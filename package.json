@@ -1,6 +1,6 @@
 {
   "name": "@ubilabs/outlined-path-layer",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Custom layer to display paths w/ outlines",
   "author": "Florian Dreyer <dreyer@ubilabs.com>",
   "type": "module",
