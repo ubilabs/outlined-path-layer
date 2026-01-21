@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/ubilabs/outlined-path-layer/compare/v0.2.0...v0.2.1) (2026-01-21)
+
+
+### Bug Fixes
+
+* **readme:** link to accessor documentation ([8048934](https://github.com/ubilabs/outlined-path-layer/commit/8048934b03fa5237ff85135be8ebbf63ae85ab4e))
+
 ## [0.2.0](https://github.com/ubilabs/outlined-path-layer/compare/v0.1.0...v0.2.0) (2026-01-20)
 
 
