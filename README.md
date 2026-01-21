@@ -26,8 +26,8 @@ const data = [
 const layer = new OutlinedPathLayer({
   id: 'OutlinedPathLayer',
   data,
-  getPath: d => d.path,
-  getColor: d => d.color,
+  getPath: (d) => d.path,
+  getColor: (d) => d.color,
   getWidth: 5,
   getOutlineColor: [0, 0, 0, 255],
   getOutlineWidth: 2
@@ -36,10 +36,10 @@ const layer = new OutlinedPathLayer({
 
 ## Properties
 
-The `OutlinedPathLayer` supports all properties of the [PathLayer](https://deck.gl/docs/api-reference/layers/path-layer#properties). In addition, it provides the following properties for outline customization, which can accept either a constant value or an [accessor function](https://deck.gl/docs/developer-guide/custom-layers/accessors), similar to `getPath`, `getColor`, and `getWidth`:
+The `OutlinedPathLayer` supports all properties of the [PathLayer](https://deck.gl/docs/api-reference/layers/path-layer#properties). In addition, it provides the following properties for outline customization, which can accept either a constant value or an [accessor function](https://deck.gl/docs/developer-guide/using-layers#accessors), similar to `getPath`, `getColor`, and `getWidth`:
 
--   **`getOutlineColor`** (Color | Accessor<DataT, Color>, optional): The rgba color of the outline in the format `[r, g, b, [a]]`. Can be a constant color or an accessor function that returns a color for each object. Default is `[0, 0, 0, 255]`.
--   **`getOutlineWidth`** (number | Accessor<DataT, number>, optional): The width of the outline. Can be a constant width or an accessor function that returns a width for each object. Default is `0`.
--   **`outlineWidthUnits`** (Unit, optional): The units of the outline width, one of `'meters'`, `'common'`, and `'pixels'`. Default is `'pixels'`.
--   **`outlineMinPixels`** (number, optional): The minimum outline width in pixels. Default is `0`.
--   **`outlineMaxPixels`** (number, optional): The maximum outline width in pixels. Default is `Number.MAX_SAFE_INTEGER`.
+- **`getOutlineColor`** (Color | Accessor<DataT, Color>, optional): The rgba color of the outline in the format `[r, g, b, [a]]`. Can be a constant color or an accessor function that returns a color for each object. Default is `[0, 0, 0, 255]`.
+- **`getOutlineWidth`** (number | Accessor<DataT, number>, optional): The width of the outline. Can be a constant width or an accessor function that returns a width for each object. Default is `0`.
+- **`outlineWidthUnits`** (Unit, optional): The units of the outline width, one of `'meters'`, `'common'`, and `'pixels'`. Default is `'pixels'`.
+- **`outlineMinPixels`** (number, optional): The minimum outline width in pixels. Default is `0`.
+- **`outlineMaxPixels`** (number, optional): The maximum outline width in pixels. Default is `Number.MAX_SAFE_INTEGER`.
