@@ -17,6 +17,10 @@
   "main": "./dist/outlined-path-layer.mjs",
   "module": "./dist/outlined-path-layer.mjs",
   "types": "./dist/outlined-path-layer.d.mts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ubilabs/outlined-path-layer.git"
+  },
   "files": [
     "dist",
     "README.md"
