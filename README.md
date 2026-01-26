@@ -2,6 +2,9 @@
 
 A Deck.gl layer to render paths with outlines. This layer extends the functionality of the [PathLayer](https://deck.gl/docs/api-reference/layers/path-layer) to include customizable outlines.
 
+See a working example [here](https://outlinedpathlayer-example.storage.googleapis.com/index.html).
+This layer is provided as-is, and we are not planning further development. Our goal is to support the integration of outline functionality directly into deck.gl.
+
 ## Installation
 
 ```bash
@@ -43,3 +46,8 @@ The `OutlinedPathLayer` supports all properties of the [PathLayer](https://deck.
 - **`outlineWidthUnits`** (Unit, optional): The units of the outline width, one of `'meters'`, `'common'`, and `'pixels'`. Default is `'pixels'`.
 - **`outlineMinPixels`** (number, optional): The minimum outline width in pixels. Default is `0`.
 - **`outlineMaxPixels`** (number, optional): The maximum outline width in pixels. Default is `Number.MAX_SAFE_INTEGER`.
+
+## Contributing
+
+While active feature development for this standalone layer is not planned, contributions for bug fixes, performance improvements, and documentation are welcome in the form of Issues and Pull Requests.
+Please open an issue to discuss a new feature to implement first before opening a corresponding PR.
