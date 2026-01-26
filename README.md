@@ -49,5 +49,5 @@ The `OutlinedPathLayer` supports all properties of the [PathLayer](https://deck.
 
 ## Contributing
 
-While we are not planning to add new features to this standalone layer, contributions are of course still welcome in the form of Issues and Pull Requests.
+While active feature development for this standalone layer is not planned, contributions for bug fixes, performance improvements, and documentation are welcome in the form of Issues and Pull Requests.
 Please open an issue to discuss a new feature to implement first before opening a corresponding PR.
