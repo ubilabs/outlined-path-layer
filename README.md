@@ -1,6 +1,6 @@
 # @ubilabs/outlined-path-layer
 
-![outlined-path-layer preview](https://i.imgur.com/iAtRudE.png 'OutlinedPathlayer Preview')
+![preview](./.github/assets/preview.png 'OutlinedPathlayer Preview')
 
 A Deck.gl layer to render paths with outlines. This layer extends the functionality of the [PathLayer](https://deck.gl/docs/api-reference/layers/path-layer) to include customizable outlines.
 
