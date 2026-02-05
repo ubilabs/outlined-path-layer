@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/ubilabs/outlined-path-layer/compare/v0.3.0...v0.4.0) (2026-02-05)
+
+
+### Features
+
+* updated data for example ([#8](https://github.com/ubilabs/outlined-path-layer/issues/8)) ([c87bee3](https://github.com/ubilabs/outlined-path-layer/commit/c87bee347bb42d0b6f0e8135e2bb2be4c9186acf))
+
 ## [0.3.0](https://github.com/ubilabs/outlined-path-layer/compare/v0.2.1...v0.3.0) (2026-01-26)
 
 
