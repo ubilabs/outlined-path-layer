@@ -70,10 +70,6 @@ async function setGoogleMap() {
   google.maps.event.addListenerOnce(map, 'idle', async () => {
     overlay.setMap(map);
   });
-
-  google.maps.event.addListener(map, 'bounds_changed', () =>
-    console.log(map.getCenter()?.toJSON(), map.getZoom())
-  );
 }
 
 async function main() {
