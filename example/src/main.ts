@@ -1,30 +1,18 @@
-import {Color} from '@deck.gl/core';
+import {Color, Position} from '@deck.gl/core';
 import {GoogleMapsOverlay} from '@deck.gl/google-maps';
 
 import {loadMapsApi} from './load-maps-api';
 import OutlinedPathLayer from '@ubilabs/outlined-path-layer';
 
-import tripsData from './trips.json';
+import data from './trips.json';
 
-interface CoordWithTimeStamp extends google.maps.LatLngLiteral {
-  timestamp: number | string;
-}
-interface BasicTrip {
-  UUID: string;
-  dateStart: number | string;
-  coords: Array<CoordWithTimeStamp>;
-  color: Array<number> | string;
-}
-
-type Trip<T> = BasicTrip & {latLng?: google.maps.LatLngLiteral} & T;
-type CustomTrip = Trip<{name: string}>;
-
+type Trip = {
+  color: Color;
+  path: Position[];
+};
 const location = {
-  center: {
-    lat: 53.86,
-    lng: 12.48
-  },
-  zoom: 12
+  center: {lat: 53.86, lng: 10.3},
+  zoom: 9.6
 };
 
 let overlay = new GoogleMapsOverlay({
@@ -53,7 +41,7 @@ const settings: LayerSettings = {
   getOutlineWidth: 2,
   widthUnits: 'pixels',
   outlineWidthUnits: 'pixels',
-  outlineColor: '#ffffff',
+  outlineColor: '#1e1e1e',
   widthMinPixels: 4,
   widthMaxPixels: 20,
   outlineMinPixels: 1,
@@ -73,7 +61,7 @@ async function setGoogleMap() {
     backgroundColor: 'transparent',
     gestureHandling: 'greedy',
     clickableIcons: false,
-    mapId: '23d7a7913a689fd9d85d09db',
+    mapId: '23d7a7913a689fd92d79d506',
     colorScheme: google.maps.ColorScheme.DARK,
     center: location.center,
     zoom: location.zoom
@@ -82,6 +70,10 @@ async function setGoogleMap() {
   google.maps.event.addListenerOnce(map, 'idle', async () => {
     overlay.setMap(map);
   });
+
+  google.maps.event.addListener(map, 'bounds_changed', () =>
+    console.log(map.getCenter()?.toJSON(), map.getZoom())
+  );
 }
 
 async function main() {
@@ -368,15 +360,11 @@ function setLayer() {
 
   const getOutlineColor = hexToRgb(outlineColor);
 
-  const trips = new OutlinedPathLayer<CustomTrip>({
+  const trips = new OutlinedPathLayer<Trip>({
     id: 'OutlinedPathLayer',
-    data: tripsData,
-    getPath: (trip: CustomTrip) =>
-      trip.coords.map((coord) => [coord.lng, coord.lat] as [number, number]),
-    getColor: (trip: CustomTrip) =>
-      (Array.isArray(trip.color)
-        ? trip.color
-        : [255 * Math.random(), 255 * Math.random(), 255 * Math.random()]) as Color,
+    data,
+    getPath: (t) => t.path,
+    getColor: (t) => t.color,
     widthUnits,
     getWidth,
     widthMinPixels,
