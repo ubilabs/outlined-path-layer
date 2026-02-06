@@ -61,7 +61,7 @@ async function setGoogleMap() {
     backgroundColor: 'transparent',
     gestureHandling: 'greedy',
     clickableIcons: false,
-    mapId: '23d7a7913a689fd92d79d506',
+    mapId: '1b1b5b65ed6d1b9179a16d7a',
     colorScheme: google.maps.ColorScheme.DARK,
     center: location.center,
     zoom: location.zoom
