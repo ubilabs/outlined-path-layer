@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.4.0](https://github.com/ubilabs/outlined-path-layer/compare/v0.3.0...v0.4.0) (2026-02-05)
+
+
+### Features
+
+* updated data for example ([#8](https://github.com/ubilabs/outlined-path-layer/issues/8)) ([c87bee3](https://github.com/ubilabs/outlined-path-layer/commit/c87bee347bb42d0b6f0e8135e2bb2be4c9186acf))
+
+## [0.3.0](https://github.com/ubilabs/outlined-path-layer/compare/v0.2.1...v0.3.0) (2026-01-26)
+
+
+### Features
+
+* prep for going public ([e6a3b6c](https://github.com/ubilabs/outlined-path-layer/commit/e6a3b6ce5b79421bf5a26c2282579f719c446b48))
+
+
+### Bug Fixes
+
+* include repo url in package.json ([fb33e68](https://github.com/ubilabs/outlined-path-layer/commit/fb33e68e98735fb25f672cf5fcd9a20250341cea))
+
 ## [0.2.1](https://github.com/ubilabs/outlined-path-layer/compare/v0.2.0...v0.2.1) (2026-01-21)
 
 

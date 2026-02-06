@@ -7,8 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "deploy": "npm run build && gsutil -m rsync -d -r ./dist gs://outlinedpathlayer-example && npm run gcs-cache",
-    "gcs-cache": "gsutil -m setmeta -r -h \"Cache-Control:no-cache\" gs://outlinedpathlayer-example"
+    "deploy": "npm run build && gsutil -m rsync -d -r ./dist gs://ubilabs-outlined-path-layer && npm run gcs-cache",
+    "gcs-cache": "gsutil -m setmeta -r -h \"Cache-Control:no-cache\" gs://ubilabs-outlined-path-layer"
   },
   "devDependencies": {
     "@types/google.maps": "^3.58.1",
