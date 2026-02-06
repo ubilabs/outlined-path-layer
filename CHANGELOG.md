@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1](https://github.com/ubilabs/outlined-path-layer/compare/v0.4.0...v0.4.1) (2026-02-06)
+
+
+### Bug Fixes
+
+* use updated example url ([#10](https://github.com/ubilabs/outlined-path-layer/issues/10)) ([63658be](https://github.com/ubilabs/outlined-path-layer/commit/63658be716b363b881b41777313b046b371d09b7))
+
 ## [0.4.0](https://github.com/ubilabs/outlined-path-layer/compare/v0.3.0...v0.4.0) (2026-02-05)
 
 
